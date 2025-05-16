@@ -1,0 +1,50 @@
+package clases;
+
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.Reader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+
+public class GestionClientes {
+    private static final String ARCHIVO = "Clientes.json";
+    private static Map<String, Clientes> mapaClientes = new HashMap<>();
+
+    public static void guardarClientes(String cedula, String nombre, String apellido, String direccion, String telefono, String email) {
+        Clientes cliente = new Clientes(cedula, nombre, apellido, direccion, telefono, email);
+        mapaClientes.put(cedula, cliente);
+        guardarEnArchivo();
+    }
+
+    public static Map<String, Clientes> listarClientes() {
+        leerDesdeArchivo();
+        return mapaClientes;
+    }
+
+    private static void guardarEnArchivo() {
+        try (FileWriter writer = new FileWriter(ARCHIVO)) {
+            Gson gson = new Gson();
+            gson.toJson(mapaClientes, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void leerDesdeArchivo() {
+        try (Reader reader = new FileReader(ARCHIVO)) {
+            Gson gson = new Gson();
+            Type tipo = new TypeToken<Map<String, Clientes>>(){}.getType();
+            mapaClientes = gson.fromJson(reader, tipo);
+            if (mapaClientes == null) {
+                mapaClientes = new HashMap<>();
+            }
+        } catch (IOException e) {
+            mapaClientes = new HashMap<>();
+        }
+    }
+}
