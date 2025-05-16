@@ -1,0 +1,12 @@
+package clases;
+
+public class Main {
+    public static void main(String[] args) {
+        GestionClientes.guardarClientes("123", "Juan", "Pérez", "Calle Falsa 123", "555-1234", "juan@example.com");
+
+        Map<String, Clientes> clientes = GestionClientes.listarClientes();
+        for (Clientes c : clientes.values()) {
+            System.out.println(c.getNombre() + " " + c.getApellido());
+        }
+    }
+}
