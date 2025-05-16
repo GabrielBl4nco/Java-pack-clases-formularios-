@@ -20,7 +20,7 @@ public class Clientes {
         this.email = email;
     }
 
-    // Métodos GET y SET
+    
     public String getCedula() { return cedula; }
     public void setCedula(String cedula) { this.cedula = cedula; }
 
